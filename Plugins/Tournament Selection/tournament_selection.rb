@@ -4,13 +4,29 @@ Tournament Selection by Neiro (for summer game jam 2026)
 --------------------------------------------------------
   • Exemples of commands in an Event script command
 ______________________________________________________
-  @selection = TournamentSelection.new(                                                            
+• case 1 : I just want a team selection for the player
+------------------------------------------------------
+  TournamentSelection.new(                                   
   3,                            | arg 1 |         => pokemon team length,
   :TWINS,"Lea&Lisa"             | args 2, 3 |     => Trainer type, Name of trainer
   )
+  ...
+  TrainerBattle.start(:TWINS,"Lea&Lisa",1)       => overworld script event command, you may do an another trainer with the right amount of pokemon
+    
+______________________________________________________
+• case 2 : I want a team selection for the player AND for the opponent
+------------------------------------------------------
+  selection = TournamentSelection.new(            => 'selection =' is mandatory if you want to have a random team, if you don't you can erase it                                       
+  3,                            | arg 1 |         => pokemon team length,
+  :TWINS,"Lea&Lisa"             | args 2, 3 |     => Trainer type, Name of trainer
+  )
+  TrainerBattle.start(selection.oppo_team)       => overworld script event command, those arguments are for a random team.
 
-  TrainerBattle.start(@selection.oppo_team)       => overworld script event command
+  WARNING : if you use global variable '@selection' and not 'selection', be sure to get : '@selection = nil' after the battle because your save will be corrupted be the uncleared Viewport of this scipt
+
 _____________________________________________________
+• case 3 : I want a team selection for the player AND a CUSTOM team for the opponent - different arguments are shown only for exemple
+------------------------------------------------------
 
   TournamentSelection.new(
   4,                            | arg 1 |         => pokemon team length, 
@@ -24,7 +40,7 @@ _____________________________________________________
 
 =end
 
-TEAM_VAR = 26 #this number is the global variable that will be used in tournament selection
+class PokemonGlobalMetadata; attr_accessor :notSelectedParty, :tournamentSelection; end
 
 class TournamentSelection
 
@@ -38,7 +54,6 @@ class TournamentSelection
       puts "TournamentSelection blocked"
       return
     end
-    $game_variables[TEAM_VAR] = []
     @show_items = show_items
     @trainer_0 = [trainer_type_0,trainer_name_0,trainer_ver_0]
 
@@ -553,8 +568,8 @@ class TournamentSelection
               hide_confirm_message
               case choice
               when 0
-                $game_variables[TEAM_VAR].push(true)
-                $game_variables[TEAM_VAR].push($player.party - new_team)
+                $PokemonGlobal.tournamentSelection = true
+                $PokemonGlobal.notSelectedParty = $player.party - new_team
                 $player.party = new_team
                 break
               when 1
