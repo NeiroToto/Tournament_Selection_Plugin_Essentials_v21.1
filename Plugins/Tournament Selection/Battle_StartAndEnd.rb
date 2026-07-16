@@ -105,9 +105,9 @@ class Battle
       @peer.pbOnLeavingBattle(self, pkmn, @usedInBattle[0][i], true)   # Reset form
       pkmn.item = @initialItems[0][i]
     end
-    if $game_variables[TEAM_VAR][0] == true       #tournament selection plugin
-      $player.party = $player.party + $game_variables[TEAM_VAR][1]
-      $game_variables[TEAM_VAR][0] = false
+    if $PokemonGlobal.tournamentSelection == true       #tournament selection plugin
+      $player.party = $player.party + $PokemonGlobal.notSelectedParty
+      $PokemonGlobal.tournamentSelection = false
     end
     return @decision
   end
