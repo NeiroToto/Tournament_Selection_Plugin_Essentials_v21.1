@@ -24,9 +24,10 @@ _____________________________________________________
 
 =end
 
-class PokemonGlobalMetadata; attr_accessor :notSelectedParty, :tournamentSelection; end
+TEAM_VAR = 26 #this number is the global variable that will be used in tournament selection
 
 class TournamentSelection
+
   attr_reader :oppo_team
 
   def initialize(poke_max, trainer_type_0,trainer_name_0,trainer_ver_0 = 0, show_items = true, battle_start = false, param = nil)
@@ -37,6 +38,7 @@ class TournamentSelection
       puts "TournamentSelection blocked"
       return
     end
+    $game_variables[TEAM_VAR] = []
     @show_items = show_items
     @trainer_0 = [trainer_type_0,trainer_name_0,trainer_ver_0]
 
@@ -551,8 +553,8 @@ class TournamentSelection
               hide_confirm_message
               case choice
               when 0
-                $PokemonGlobal.tournamentSelection = true
-                $PokemonGlobal.notSelectedParty = $player.party - new_team
+                $game_variables[TEAM_VAR].push(true)
+                $game_variables[TEAM_VAR].push($player.party - new_team)
                 $player.party = new_team
                 break
               when 1
