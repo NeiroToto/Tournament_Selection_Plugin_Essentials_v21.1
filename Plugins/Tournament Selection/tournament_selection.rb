@@ -22,7 +22,7 @@ ______________________________________________________
   )
   TrainerBattle.start(selection.oppo_team)       => overworld script event command, those arguments are for a random team.
 
-  WARNING : if you use global variable '@selection' and not 'selection', be sure to get : '@selection = nil' after the battle because your save will be corrupted be the uncleared Viewport of this scipt
+  WARNING : if you use global variable '@selection' and not 'selection', be sure to get : '@selection = nil' after the battle because your save will be corrupted by the uncleared Viewport of this scipt
 
 _____________________________________________________
 • case 3 : I want a team selection for the player AND a CUSTOM team for the opponent - different arguments are shown only for exemple
@@ -100,8 +100,6 @@ class TournamentSelection
     @sprites["textsprites5"].bitmap = Bitmap.new(Graphics.width, Graphics.height)
     @sprites["textsprites5"].z = 6
     @sprites["textsprites5"].visible = false
-    #@sprites["test"] = Sprite.new(@viewport)
-    #@sprites["test"].bitmap = Bitmap.new("Graphics/UI/Tournament Selection/bg_ui")
     @sprites["ball_bar"] = Sprite.new(@viewport)
     @sprites["ball_bar"].bitmap = Bitmap.new("Graphics/UI/Tournament Selection/ball_bar")
     @sprites["ball_bar"].x = @sprites["ball_bar"].bitmap.width / 2
